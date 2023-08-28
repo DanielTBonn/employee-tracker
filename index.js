@@ -1,23 +1,30 @@
-const mysql = require('mysql2');
+const inquirer = require('inquirer');
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    database: 'test'
-});
-
-connection.query(
-    'SELECT * FROM `table` WHERE `name` = "Page" AND `age` > 45',
-    function(err, results, fields) {
-        console.log(results);
-        console.log(fields);
+const questions = [
+    {
+        type: 'list',
+        name: 'menu',
+        message: 'What would you like to do? (use arrow keys)',
+        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
     }
-)
+]
 
-connection.query(
-    'SELECT * FROM `table` WHERE `name` = ? AND `age` > ?',
-    ['Page', 45],
-    function(err, results) {
-        console.log(results);
-    }
-)
+function init() {
+    console.log("Welcome to the department's records!");
+    console.log("Would you like to add anything?\n");
+    let keepAlive = true;
+    
+    inquirer
+    .prompt(questions)
+    .then((answers) => {
+        console.log('Answered Choice: ');
+        console.log(answers.menu);
+        if (answers.menu == 'Quit') {
+            keepAlive = false;
+        }
+    })
+    
+
+}
+
+init();
