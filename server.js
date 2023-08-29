@@ -1,7 +1,9 @@
 const express = require('express');
 // Import and require mysql2
 const mysql = require('mysql2');
-
+const queryDict = {
+  first: 'SELECT * FROM `department` WHERE `name` = ?'
+}
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -24,7 +26,7 @@ const db = mysql.createConnection(
 );
 
 
-db.execute('SELECT * FROM `department` WHERE `name` = ?', 
+db.execute(queryDict.first, 
   ['Engineering'], 
   function (err, results) {
     console.log(results);
@@ -38,3 +40,4 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
