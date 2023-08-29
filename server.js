@@ -20,7 +20,7 @@ const db = mysql.createConnection(
     user: 'root',
     // MySQL password
     password: 'classpass123',
-    database: 'books_db'
+    database: 'department_db'
   },
   console.log(`Connected to the books_db database.`)
 );

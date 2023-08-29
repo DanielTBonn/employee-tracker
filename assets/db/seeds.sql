@@ -18,13 +18,13 @@ VALUES  (1001, 'Account Manager', 160000, 0001),
 
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES  (1011, 'Ashley', 'Benson', 1001),
+VALUES  (1011, 'Ashley', 'Benson', 1001, NULL),
         (2011, 'Gary', 'Ciello', 2001, 1011),
-        (1012, 'Reed', 'Trinity', 1002),
+        (1012, 'Reed', 'Trinity', 1002, NULL),
         (2012, 'Andrew', 'Tilstock', 2002, 1012),
-        (3012, 'Sally', 'Weston', 3002),
+        (3012, 'Sally', 'Weston', 3002, NULL),
         (4012, 'Jesse', 'Spruce', 4002, 3012),
-        (1013, 'Manford', 'Peters', 1003),
+        (1013, 'Manford', 'Peters', 1003, NULL),
         (2013, 'Grayson', 'Fields', 2003, 1013),
-        (1014, 'Stella', 'Heinz', 1004),
+        (1014, 'Stella', 'Heinz', 1004, NULL),
         (2014, 'Allan', 'Gripton', 2004, 1014);
