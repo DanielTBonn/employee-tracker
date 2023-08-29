@@ -4,7 +4,11 @@ const mysql = require('mysql2');
 const queryDict = {
   first: 'SELECT * FROM `employee`',
   second: 'INSERT INTO `employee` (`id`, `first_name`, `last_name`, `role_id`, `manager_id`) VALUES (?, ?, ?, ?, ?)',
-  third: 'UPDATE `employee` SET `id` = ?, `first_name` = ?, `last_name` = ?, `role_id` = ?,`manager_id` = ? WHERE `id`= 2033'
+  third: 'UPDATE `employee` SET `role_id` = ? WHERE `id`= 2033',
+  fourth: 'SELECT * FROM `role`',
+  fifth: 'INSERT INTO `role` (`id`, `title`, `salary`, `department_id`) VALUES (?, ?, ?, ?)',
+  sixth: 'SELECT * FROM `department`',
+  seventh: 'INSERT INTO `department` (`id`, `name`) VALUES (?, ?)'
 }
 
 const PORT = process.env.PORT || 3001;
