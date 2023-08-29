@@ -1,6 +1,9 @@
 const express = require('express');
 // Import and require mysql2
 const mysql = require('mysql2');
+const schema = require('./assets/db/schema.sql');
+const seeds = require('./assets/db/seeds.sql');
+
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -22,8 +25,15 @@ const db = mysql.createConnection(
   console.log(`Connected to the books_db database.`)
 );
 
-// Query database
-db.query('SELECT * FROM fiction', function (err, results) {
+db.query(schema, function(err, results) {
+  console.log(results);
+});
+
+db.query(seeds, function(err, results) {
+  console.log(results);
+});
+
+db.query('SELECT * FROM department', function (err, results) {
   console.log(results);
 });
 
