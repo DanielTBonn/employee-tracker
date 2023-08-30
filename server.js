@@ -31,13 +31,20 @@ const db = mysql.createConnection(
   console.log(`Connected to the department_db database.`)
 );
 
-let nameValue = '';
+// let nameValue = 'Tree';
+// , nameValue || null
 const pass = 1002
-db.execute(queryDict['third'], 
-  [2033, 'crapes', 'cropped', 2003, nameValue || null], 
+db.execute(queryDict['seventh'], 
+  [5, 'Service'], 
   function (err, results) {
     console.log(results);
 });
+
+// db.execute(queryDict['fifth'], 
+//   [3004, 'Paralegal', 80000, 0x4], 
+//   function (err, results) {
+//     console.log(results);
+// });
 
 // db.execute(queryDict['second'], 
 //   [2023, 'Red', 'Foreman', 2003, 1013], 
@@ -45,7 +52,7 @@ db.execute(queryDict['third'],
 //     console.log(results);
 // });
 
-db.execute(queryDict['first'], 
+db.execute(queryDict['sixth'], 
   ['Engineering'], 
   function (err, results) {
     console.log(results);
