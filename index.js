@@ -77,8 +77,8 @@ function init() {
     .then((answers) => {
         console.log('Answered Choice: ');
         console.log(answers);
-        if (answers.menu == 'Quit') {
-            keepAlive = false;
+        if (answers.menu !== 'Quit') {
+            init();
         }
     })
     
