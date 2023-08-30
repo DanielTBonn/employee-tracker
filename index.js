@@ -1,30 +1,46 @@
 const inquirer = require('inquirer');
-
-const questions = [
-    {
-        type: 'list',
-        name: 'menu',
-        message: 'What would you like to do? (use arrow keys)',
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
-    }
-]
+const questions = require('./questions.js')
+// const {db} = require('./server.js')
 
 function init() {
     console.log("Welcome to the department's records!");
     console.log("Would you like to add anything?\n");
-    let keepAlive = true;
     
     inquirer
     .prompt(questions)
     .then((answers) => {
         console.log('Answered Choice: ');
-        console.log(answers.menu);
-        if (answers.menu == 'Quit') {
-            keepAlive = false;
+        console.log(answers);
+        if (answers.menu !== 'Quit') {
+            init();
         }
+        // else if (answers.menu === 'View All Employees') {
+        //     app();
+        //     db.query('SELECT * FROM `employee`', function(err, results) {
+        //         console.log("index.js results: ",results)
+
+        //     })
+        // }
     })
-    
+    // .on('done', (answers) => {
+    //     console.log('It is done!')
+    // })
+
 
 }
 
-init();
+// init();
+
+module.exports = init();
+
+// module.exports = init();
+
+// function add2 (n) {
+//     return n + 2;
+// }
+
+// const testClass = {
+//     called: (n) => {return n + 2}
+// }
+
+// console.log(testClass.called(3))
