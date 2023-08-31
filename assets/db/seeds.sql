@@ -1,30 +1,30 @@
-INSERT INTO department (id, name)
-VALUES  (0001, 'Finance'),
-        (0002, 'Engineering'),
-        (0003, 'Sales'),
-        (0004, 'Legal');
+INSERT INTO department (name)
+VALUES  ('Finance'),
+        ('Engineering'),
+        ('Sales'),
+        ('Legal');
 
-INSERT INTO role (id, title, salary, department_id)
-VALUES  (1001, 'Account Manager', 160000, 0001),
-        (2001, 'Accountant', 125000, 0001),
-        (1002, 'Lead Engineer', 150000, 0002),
-        (2002, 'Junior Engineering', 120000, 0002),
-        (3002, 'Lead Software Developer', 155000, 0002),
-        (4002, 'Junior Software Developer', 125000, 0002),
-        (1003, 'Sales Lead', 140000, 0003),
-        (2003, 'Sales Person', 100000, 0003),
-        (1004, 'Legal Team Lead', 250000, 0004),
-        (2004, 'Lawyer', 190000, 0004);
+INSERT INTO role (title, salary, department_id)
+VALUES  ('Account Manager', 160000, 1),
+        ('Accountant', 125000, 1),
+        ('Lead Engineer', 150000, 2),
+        ('Junior Engineering', 120000, 2),
+        ('Lead Software Developer', 155000, 2),
+        ('Junior Software Developer', 125000, 2),
+        ('Sales Lead', 140000, 3),
+        ('Sales Person', 100000, 3),
+        ('Legal Team Lead', 250000, 4),
+        ('Lawyer', 190000, 4);
 
 
-INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES  (1011, 'Ashley', 'Benson', 1001, NULL),
-        (2011, 'Gary', 'Ciello', 2001, 1011),
-        (1012, 'Reed', 'Trinity', 1002, NULL),
-        (2012, 'Andrew', 'Tilstock', 2002, 1012),
-        (3012, 'Sally', 'Weston', 3002, NULL),
-        (4012, 'Jesse', 'Spruce', 4002, 3012),
-        (1013, 'Manford', 'Peters', 1003, NULL),
-        (2013, 'Grayson', 'Fields', 2003, 1013),
-        (1014, 'Stella', 'Heinz', 1004, NULL),
-        (2014, 'Allan', 'Gripton', 2004, 1014);
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES  ('Ashley', 'Benson', 100, NULL),
+        ('Gary', 'Ciello', 101, 1000),
+        ('Reed', 'Trinity', 102, NULL),
+        ('Andrew', 'Tilstock', 103, 1002),
+        ('Sally', 'Weston', 104, NULL),
+        ('Jesse', 'Spruce', 105, 1004),
+        ('Manford', 'Peters', 106, NULL),
+        ('Grayson', 'Fields', 107, 1006),
+        ('Stella', 'Heinz', 108, NULL),
+        ('Allan', 'Gripton', 109, 1008);
