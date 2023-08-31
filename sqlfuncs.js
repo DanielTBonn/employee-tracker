@@ -48,7 +48,7 @@ function addRole() {
     // -- Receive user input as title and salary
     // -- Then query all departments and return the result
     // -- Then insert new role
-    return `SELECT name FROM department
+    return `SELECT name FROM department;
     INSERT INTO role (title, salary, department_id)
     Values (?, ?, name);`;
 }

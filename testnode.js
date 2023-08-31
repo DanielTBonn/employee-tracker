@@ -11,11 +11,12 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-async function main() {
-
-    const mysql = require('mysql2/promise');
+// async function main() {
+function main() {
+    const mysql = require('mysql2');
     // Connect to database
-    const db = await mysql.createConnection(
+    let returnVal;
+    const db = mysql.createConnection(
         {
             host: 'localhost',
             // MySQL username,
@@ -26,19 +27,35 @@ async function main() {
         },
         console.log(`Connected to the department_db database.`)
         );
+        
+    db.promise().execute(viewDepartments()).then( ([rows,fields]) => {
+        console.log(rows);
+        return rows
+    })
+    .catch(console.log("something happened"))
+    .then ( (result) => {
+        db.end();
+        returnVal = result;
+        return result;
+    });
+    console.log(returnVal)
+
     
-    const [rows, fields] = await db.execute(viewDepartments(), [])
-    console.log(rows, fields)
-    return rows;
 }
+
+async function invoke() {
+    let result = await main();
+    console.log("result: ", result)
+}
+invoke();
 
 app.use((req, res) => {
     res.status(404).end();
 });
 
 
-main();
-process.exit();
+// main();
+// process.exit();
 
 // app.listen(PORT, (req, res) => {
 //     console.log(`Server running on port ${PORT}`);
