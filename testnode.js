@@ -37,11 +37,14 @@ app.use((req, res) => {
 });
 
 
+main();
+process.exit();
 
-app.listen(PORT, (req, res) => {
-    console.log(`Server running on port ${PORT}`);
-    const rows = main();
-    console.log(rows);
-    return rows;
-    // init;
-  });
+// app.listen(PORT, (req, res) => {
+//     console.log(`Server running on port ${PORT}`);
+//     const rows = main();
+//     console.log("Rows: ", rows);
+//     // return rows;
+//     // init;
+//   })
+//   .then(() => process.exit());
