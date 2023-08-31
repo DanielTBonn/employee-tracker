@@ -1,7 +1,8 @@
 const express = require('express');
 // Import and require mysql2
 const mysql = require('mysql2');
-const init = require('./index.js')
+// const init = require('./index.js');
+const { viewAllEmployees, addEmployee, viewRoles, addRole, viewDepartments, addDepartment } = require('./sqlfuncs.js');
 const queryDict = {
   first: 'SELECT * FROM `employee`',
   second: 'INSERT INTO `employee` (`id`, `first_name`, `last_name`, `role_id`, `manager_id`) VALUES (?, ?, ?, ?, ?)',
@@ -35,8 +36,8 @@ const db = mysql.createConnection(
 // let nameValue = 'Tree';
 // , nameValue || null
 const pass = 1002
-db.execute(queryDict['seventh'], 
-  [5, 'Service'], 
+db.execute(addRole(), 
+  ['Service'], 
   function (err, results) {
     console.log(results);
 });
@@ -53,11 +54,11 @@ db.execute(queryDict['seventh'],
 //     console.log(results);
 // });
 
-db.execute(queryDict['sixth'], 
-  ['Engineering'], 
-  function (err, results) {
-    console.log(results);
-});
+// db.execute(queryDict['sixth'], 
+//   ['Engineering'], 
+//   function (err, results) {
+//     console.log(results);
+// });
 
 // Default response for any other request (Not Found)
 app.use((req, res) => {
@@ -66,5 +67,5 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
   // console.log(`Server running on port ${PORT}`);
-  init;
+  // init;
 });
