@@ -1,6 +1,6 @@
-const express = require('express');
+
 // Import and require mysql2
-  const mysql = require('mysql2');
+const mysql = require('mysql2');
 
 
 const { viewAllEmployees, addEmployee, viewRoles, addRole, viewDepartments, addDepartment } = require('./sqlfuncs.js');
@@ -14,12 +14,6 @@ const queryDict = {
   seventh: 'INSERT INTO `department` (`id`, `name`) VALUES (?, ?)'
 }
 
-const PORT = process.env.PORT || 3001;
-const app = express();
-
-// Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 
 // Connect to database
 const db = mysql.createConnection(
@@ -104,11 +98,6 @@ const db = mysql.createConnection(
 //   res.status(404).end();
 // });
 
-app.listen(PORT, () => {
-  // console.log(`Server running on port ${PORT}`);
-//   init;
-});
-
 require('./index.js');
 
-// module.exports = {main};
+module.exports = { db };
