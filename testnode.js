@@ -37,6 +37,7 @@ async function main(query, callback) {
             db.query(query, function(err, results) {
                 if (err) {
                     throw err;
+                    
                 }
                 console.log(results)
             })
