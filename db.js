@@ -20,13 +20,10 @@ function main(query, callback) {
         );
         
         
-        db.query(query, function(err, results) {
-            if (err) {
-                throw err;
-            }
-            // console.log(results);
-            return callback(results);
+        db.promise().query(query).then(([rows,fields]) => {
+            return callback(rows);
         })
+        .catch
 
         // const returnData = db.promise().query(query).then(([rows,fields]) => {
         //     // console.log(rows);
