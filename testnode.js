@@ -1,8 +1,7 @@
 const express = require('express');
+const inquirer = require('inquirer');
 const { viewAllEmployees, addEmployee, viewRoles, addRole, viewDepartments, addDepartment } = require('./sqlfuncs.js');
-const mysql = require('mysql2');
-
-
+const questions = require('./questions.js')
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -11,50 +10,79 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// async function main() {
-// function main() {
-    // const mysql = require('mysql2');
-    // Connect to database
+async function main(query, callback) {
+    const mysql = require('mysql2');
+    const db = await mysql.createConnection(
+        {
+            host: 'localhost',
+            // MySQL username,
+            user: 'root',
+            // MySQL password
+            password: 'classpass123',
+            database: 'department_db'
+        },
+        console.log(`Connected to the department_db database.`)
+        );
 
-        const db = mysql.createConnection(
-            {
-                host: 'localhost',
-                // MySQL username,
-                user: 'root',
-                // MySQL password
-                password: 'classpass123',
-                database: 'department_db'
-            },
-            console.log(`Connected to the department_db database.`)
-            );
-            
-            let getEmployeeNames = function(){
-                return new Promise(function(resolve, reject){
-                  db.query(
-                      "SELECT * FROM employee", 
-                      function(err, rows){                                                
-                          if(rows === undefined){
-                              reject(new Error("Error rows is undefined"));
-                          }else{
-                              resolve(rows);
-                          }
-                      }
-                  )}
-              )}
+        if (query === viewAllEmployees()) {
+            db.query(query, function(err, results) {
+                if (err) {
+                    throw err;
+                }
+                console.log(results)
+            })
+        }
+
+        if (query === viewRoles()) {
+            db.query(query, function(err, results) {
+                if (err) {
+                    throw err;
+                }
+                console.log(results)
+            })
+        }
         
-// }
-console.log(getEmployeeNames)
+        
+        
+}
+
+
+function init() {
+
+    inquirer
+    .prompt(questions)
+    .then((answers) => {
+        console.log('Answered Choice: ');
+        console.log(answers);
+        let returnData = ''
+        main(viewRoles(), function(result){
+            returnData = result;
+        });
+        return returnData
+    })
+    .then((answers) => {
+        console.log("Answers", answers)
+    } );
+
+
+        // if (answers.menu !== 'Quit') {
+            //     init();
+            // }
             
+        // console.log("Returned Data ", returnData)
+
+}
+
+// let stuff = ''
+// main(viewAllEmployees(), function(result){
+//     stuff = result;
+// });
+
+// console.log("STUFF", stuff)
     
-
-
-// async function invoke() {
-//     let result = await main();
-//     console.log("result: ", result)
-//     process.exit(0);
-// }
-// invoke();
 
 app.use((req, res) => {
     res.status(404).end();
 });
+
+init();

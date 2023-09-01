@@ -5,21 +5,7 @@ const { viewAllEmployees, addEmployee, viewRoles, addRole, viewDepartments, addD
 const { main } = require('./db.js')
 
 function init() {
-    // console.log("Welcome to the department's records!");
-    // console.log("Would you like to add anything?\n");
 
-    //     inquirer.prompt(questions);
-    //     let returnData = ''
-    //     main(viewAllEmployees(), function(result){
-    //         returnData = result;
-    //     });
-    //     console.log("Returned Data ", returnData)
-    //     console.log('Answered Choice: ');
-    //     console.log(answers);
-    //     if (answers.menu !== 'Quit') {
-    //         init();
-    //     } 
-    // }
     inquirer
     .prompt(questions)
     .then((answers) => {
@@ -35,9 +21,6 @@ function init() {
         }
     })
 
-    // else if (answers.menu === 'View All Employees') {
-    //     await main(viewAllEmployees)
-    // }
 }
 
 

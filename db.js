@@ -2,11 +2,7 @@ const { viewAllEmployees, addEmployee, viewRoles, addRole, viewDepartments, addD
 
 
 function main(query, callback) {
-
-    
     const mysql = require('mysql2');
-    
-    
     const db = mysql.createConnection(
         {
             host: 'localhost',
@@ -20,10 +16,13 @@ function main(query, callback) {
         );
         
         
-        db.promise().query(query).then(([rows,fields]) => {
-            return callback(rows);
+        db.query(query, function(err, results) {
+            if (err) {
+                throw err;
+            }
+            // console.log(results);
+            return callback(results);
         })
-        .catch
 
         // const returnData = db.promise().query(query).then(([rows,fields]) => {
         //     // console.log(rows);
@@ -36,12 +35,12 @@ function main(query, callback) {
         
     }
 
-// let stuff = ''
-// main(viewAllEmployees(), function(result){
-//     stuff = result;
-// });
+let stuff = ''
+main(viewAllEmployees(), function(result){
+    stuff = result;
+});
 
-// console.log("STUFF", stuff)
+console.log("STUFF", stuff)
 
 module.exports = { main };
 
