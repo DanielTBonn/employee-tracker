@@ -21,17 +21,53 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Connect to database
-const db = mysql.createConnection(
-  {
-    host: 'localhost',
-    // MySQL username,
-    user: 'root',
-    // MySQL password
-    password: 'classpass123',
-    database: 'department_db'
-  },
-  console.log(`Connected to the department_db database.`)
-);
+// const db = mysql.createConnection(
+//   {
+//     host: 'localhost',
+//     // MySQL username,
+//     user: 'root',
+//     // MySQL password
+//     password: 'classpass123',
+//     database: 'department_db'
+//   },
+//   console.log(`Connected to the department_db database.`)
+// );
+
+// async function main() {
+async function main() {
+  const mysql = require('mysql2');
+  // Connect to database
+  try {
+
+      const db = mysql.createConnection(
+          {
+              host: 'localhost',
+              // MySQL username,
+              user: 'root',
+              // MySQL password
+              password: 'classpass123',
+              database: 'department_db'
+          },
+          console.log(`Connected to the department_db database.`)
+          );
+          
+      let returnData = await db.promise().execute(viewDepartments());
+      return returnData[0]
+      }
+      catch (err) {
+          console.log("something happened")
+
+      }
+}
+            
+
+async function invoke() {
+    let result = await main();
+    console.log("result: ", result)
+    process.exit(0);
+}
+invoke();
+
 
 // let nameValue = 'Tree';
 // , nameValue || null
@@ -61,11 +97,11 @@ db.execute(addRole(),
 // });
 
 // Default response for any other request (Not Found)
-app.use((req, res) => {
-  res.status(404).end();
-});
+// app.use((req, res) => {
+//   res.status(404).end();
+// });
 
-app.listen(PORT, () => {
-  // console.log(`Server running on port ${PORT}`);
-  // init;
-});
+// app.listen(PORT, () => {
+//   // console.log(`Server running on port ${PORT}`);
+//   // init;
+// });
