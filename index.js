@@ -1,10 +1,12 @@
 const inquirer = require('inquirer');
 const questions = require('./questions.js')
-// const {db} = require('./server.js')
+const { viewAllEmployees, addEmployee, viewRoles, addRole, viewDepartments, addDepartment } = require('./sqlfuncs.js');
+const mysql = require('mysql2');
+
 
 function init() {
-    console.log("Welcome to the department's records!");
-    console.log("Would you like to add anything?\n");
+    // console.log("Welcome to the department's records!");
+    // console.log("Would you like to add anything?\n");
     
     inquirer
     .prompt(questions)
@@ -13,14 +15,13 @@ function init() {
         console.log(answers);
         if (answers.menu !== 'Quit') {
             init();
-        }
-        // else if (answers.menu === 'View All Employees') {
-        //     app();
-        //     db.query('SELECT * FROM `employee`', function(err, results) {
-        //         console.log("index.js results: ",results)
+        } else if (answers.menu === 'View All Employees') {
+            db.query('SELECT * FROM `employee`', function(err, results) {
+                console.log("index.js results: ",results)
 
-        //     })
+            })
         // }
+        }
     })
     // .on('done', (answers) => {
     //     console.log('It is done!')
@@ -28,6 +29,7 @@ function init() {
 
 
 }
+
 
 // init();
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const { viewAllEmployees, addEmployee, viewRoles, addRole, viewDepartments, addDepartment } = require('./sqlfuncs.js');
-
+const mysql = require('mysql2');
 
 
 
@@ -12,10 +12,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // async function main() {
-async function main() {
-    const mysql = require('mysql2');
+// function main() {
+    // const mysql = require('mysql2');
     // Connect to database
-    try {
 
         const db = mysql.createConnection(
             {
@@ -29,24 +28,32 @@ async function main() {
             console.log(`Connected to the department_db database.`)
             );
             
-        let returnData = await db.promise().execute(viewDepartments());
-        return returnData[0]
-        }
-        catch (err) {
-            console.log("something happened")
-
-        }
-}
+            let getEmployeeNames = function(){
+                return new Promise(function(resolve, reject){
+                  db.query(
+                      "SELECT * FROM employee", 
+                      function(err, rows){                                                
+                          if(rows === undefined){
+                              reject(new Error("Error rows is undefined"));
+                          }else{
+                              resolve(rows);
+                          }
+                      }
+                  )}
+              )}
+        
+// }
+console.log(getEmployeeNames)
             
     
 
 
-async function invoke() {
-    let result = await main();
-    console.log("result: ", result)
-    process.exit(0);
-}
-invoke();
+// async function invoke() {
+//     let result = await main();
+//     console.log("result: ", result)
+//     process.exit(0);
+// }
+// invoke();
 
 app.use((req, res) => {
     res.status(404).end();

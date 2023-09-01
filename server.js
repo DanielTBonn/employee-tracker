@@ -1,7 +1,8 @@
 const express = require('express');
 // Import and require mysql2
-const mysql = require('mysql2');
-// const init = require('./index.js');
+  const mysql = require('mysql2');
+
+
 const { viewAllEmployees, addEmployee, viewRoles, addRole, viewDepartments, addDepartment } = require('./sqlfuncs.js');
 const queryDict = {
   first: 'SELECT * FROM `employee`',
@@ -21,62 +22,64 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Connect to database
-// const db = mysql.createConnection(
-//   {
-//     host: 'localhost',
-//     // MySQL username,
-//     user: 'root',
-//     // MySQL password
-//     password: 'classpass123',
-//     database: 'department_db'
-//   },
-//   console.log(`Connected to the department_db database.`)
-// );
+const db = mysql.createConnection(
+  {
+    host: 'localhost',
+    // MySQL username,
+    user: 'root',
+    // MySQL password
+    password: 'classpass123',
+    database: 'department_db'
+  },
+  console.log(`Connected to the department_db database.`)
+);
 
 // async function main() {
-async function main() {
-  const mysql = require('mysql2');
-  // Connect to database
-  try {
+// async function main(command) {
+//   const mysql = require('mysql2');
+//   // Connect to database
+//   try {
 
-      const db = mysql.createConnection(
-          {
-              host: 'localhost',
-              // MySQL username,
-              user: 'root',
-              // MySQL password
-              password: 'classpass123',
-              database: 'department_db'
-          },
-          console.log(`Connected to the department_db database.`)
-          );
+//       const db = mysql.createConnection(
+//           {
+//               host: 'localhost',
+//               // MySQL username,
+//               user: 'root',
+//               // MySQL password
+//               password: 'classpass123',
+//               database: 'department_db'
+//           },
+//           console.log(`Connected to the department_db database.`)
+//           );
           
-      let returnData = await db.promise().execute(viewDepartments());
-      return returnData[0]
-      }
-      catch (err) {
-          console.log("something happened")
+//       let returnData = await db.promise().execute(command);
+//       console.log(returnData[0])
+//       db.end();
+//       }
+//       catch (err) {
+//           console.log("something happened")
 
-      }
-}
-            
+//       }
+// }
 
-async function invoke() {
-    let result = await main();
-    console.log("result: ", result)
-    process.exit(0);
-}
-invoke();
+// main(viewAllEmployees());
+
+// async function invoke(command) {
+//     let result = await main(command);
+//     console.log("result: ", result)
+//     // process.exit(0);
+// }
+// invoke(viewRoles());
 
 
 // let nameValue = 'Tree';
 // , nameValue || null
-const pass = 1002
-db.execute(addRole(), 
-  ['Service'], 
-  function (err, results) {
-    console.log(results);
-});
+// const pass = 1002
+// db.execute(addRole(), 
+//   ['Service'], 
+//   function (err, results) {
+//     console.log(results);
+// });
 
 // db.execute(queryDict['fifth'], 
 //   [3004, 'Paralegal', 80000, 0x4], 
@@ -101,7 +104,11 @@ db.execute(addRole(),
 //   res.status(404).end();
 // });
 
-// app.listen(PORT, () => {
-//   // console.log(`Server running on port ${PORT}`);
-//   // init;
-// });
+app.listen(PORT, () => {
+  // console.log(`Server running on port ${PORT}`);
+//   init;
+});
+
+require('./index.js');
+
+// module.exports = {main};
