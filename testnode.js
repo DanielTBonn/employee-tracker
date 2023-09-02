@@ -37,9 +37,51 @@ function querySql(query) {
             })
         }
 
-        // if (query === 'Add Employee') {
+    //     `SELECT id FROM role WHERE title=?;`
+    // `SELECT id FROM employee WHERE first_name=? AND last_name=?;`
+    // `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+    // VALUES (?, ?, ?, ?);`;
+
+        if (query === 'Add Employee') {
+            let appendEmployee = ['Reed', 'Chavez'];
             
-        // }
+            db.promise().query(`SELECT id FROM role WHERE title=?;`, ['Lawyer']).then(([rows, fields]) => {
+                console.log(rows);
+                return rows;
+            })
+            .then((result1) => {
+                console.log(result1);
+                appendEmployee.push(result1[0].id)
+                db.promise().query(`SELECT id FROM employee WHERE first_name=? AND last_name=?;`, ['Stella', 'Heinz']).then(([rows, fields]) => {
+                    console.log(rows);
+                    return rows;
+                })
+                .then((result2) => {
+                    console.log(result2)
+                    appendEmployee.push(result2[0].id)
+                    console.log("Append Employee: ", appendEmployee);
+                    db.promise().query(`INSERT INTO employee (first_name, last_name, role_id, manager_id)
+                    VALUES (?, ?, ?, ?);`, appendEmployee).then(([rows, fields]) => {
+                        console.log(rows)
+                    })
+                })
+
+
+            })
+            // db.query(`SELECT id FROM role WHERE title=?;`, ['Lawyer'], function(err, results) {
+            //     if (err) {
+            //         throw err;
+            //     }
+            //     appendEmployee.push(results);
+            //     console.log("In query: ", appendEmployee);
+            //     return results;
+            // })
+            // .then((results) => {
+            //     console.log("Results in then ", results)
+            // })
+            // console.log("Out of query: ", appendEmployee);
+            
+        }
 
         if (query === viewRoles()) {
             db.query(query, function(err, results) {
@@ -80,6 +122,7 @@ function init() {
         console.log('Answered Choice: ');
         console.log(answers);
         querySql(queryDict[answers.menu]);
+        // querySql('Add Employee')
         if(answers.menu !== 'Quit') {
             setTimeout(() => {
                 init();
