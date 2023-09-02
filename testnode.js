@@ -11,7 +11,7 @@ const queryDict = {'View All Employees': viewAllEmployees(), 'Add Employee': 'ad
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-function main(query) {
+function querySql(query) {
     const mysql = require('mysql2');
     const db = mysql.createConnection(
         {
@@ -36,6 +36,10 @@ function main(query) {
 
             })
         }
+
+        // if (query === 'Add Employee') {
+            
+        // }
 
         if (query === viewRoles()) {
             db.query(query, function(err, results) {
@@ -75,7 +79,7 @@ function init() {
     .then((answers) => {
         console.log('Answered Choice: ');
         console.log(answers);
-        main(queryDict[answers.menu]);
+        querySql(queryDict[answers.menu]);
         if(answers.menu !== 'Quit') {
             setTimeout(() => {
                 init();
