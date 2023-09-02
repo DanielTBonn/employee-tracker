@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1000,
+        "first_name": "Ashley",
+        "last_name": "Benson",
+        "title": "Account Manager",
+        "salary": "160000",
+        "department": "Finance",
+        "manager": null
+    },
+    {
+        "id": 1001,
+        "first_name": "Gary",
+        "last_name": "Ciello",
+        "title": "Accountant",
+        "salary": "125000",
+        "department": "Finance",
+        "manager": "Ashley Benson"
+    },
+    {
+        "id": 1002,
+        "first_name": "Reed",
+        "last_name": "Trinity",
+        "title": "Lead Engineer",
+        "salary": "150000",
+        "department": "Engineering",
+        "manager": null
+    },
+    {
+        "id": 1003,
+        "first_name": "Andrew",
+        "last_name": "Tilstock",
+        "title": "Junior Engineering",
+        "salary": "120000",
+        "department": "Engineering",
+        "manager": "Reed Trinity"
+    },
+    {
+        "id": 1004,
+        "first_name": "Sally",
+        "last_name": "Weston",
+        "title": "Lead Software Developer",
+        "salary": "155000",
+        "department": "Engineering",
+        "manager": null
+    },
+    {
+        "id": 1005,
+        "first_name": "Jesse",
+        "last_name": "Spruce",
+        "title": "Junior Software Developer",
+        "salary": "125000",
+        "department": "Engineering",
+        "manager": "Sally Weston"
+    },
+    {
+        "id": 1006,
+        "first_name": "Manford",
+        "last_name": "Peters",
+        "title": "Sales Lead",
+        "salary": "140000",
+        "department": "Sales",
+        "manager": null
+    },
+    {
+        "id": 1007,
+        "first_name": "Grayson",
+        "last_name": "Fields",
+        "title": "Sales Person",
+        "salary": "100000",
+        "department": "Sales",
+        "manager": "Manford Peters"
+    },
+    {
+        "id": 1008,
+        "first_name": "Stella",
+        "last_name": "Heinz",
+        "title": "Legal Team Lead",
+        "salary": "250000",
+        "department": "Legal",
+        "manager": null
+    },
+    {
+        "id": 1009,
+        "first_name": "Allan",
+        "last_name": "Gripton",
+        "title": "Lawyer",
+        "salary": "190000",
+        "department": "Legal",
+        "manager": "Stella Heinz"
+    }
+]

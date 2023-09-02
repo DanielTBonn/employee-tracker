@@ -2,7 +2,7 @@ const express = require('express');
 const inquirer = require('inquirer');
 const { viewAllEmployees, addEmployee, viewRoles, addRole, viewDepartments, addDepartment } = require('./sqlfuncs.js');
 const questions = require('./questions.js')
-
+const table = require('./table.js')
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -10,9 +10,9 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-async function main(query, callback) {
+function main(query, callback) {
     const mysql = require('mysql2');
-    const db = await mysql.createConnection(
+    const db = mysql.createConnection(
         {
             host: 'localhost',
             // MySQL username,
@@ -29,7 +29,7 @@ async function main(query, callback) {
                 if (err) {
                     throw err;
                 }
-                console.log(results)
+                table(results)
             })
         }
 
@@ -37,16 +37,25 @@ async function main(query, callback) {
             db.query(query, function(err, results) {
                 if (err) {
                     throw err;
-                    
+
                 }
-                console.log(results)
+                table(results)
+            })
+        }
+
+        if (query === viewDepartments()) {
+            db.query(query, function(err, results) {
+                if (err) {
+                    throw err;
+
+                }
+                table(results)
             })
         }
         
         
         
 }
-
 
 function init() {
 
@@ -65,21 +74,7 @@ function init() {
         console.log("Answers", answers)
     } );
 
-
-        // if (answers.menu !== 'Quit') {
-            //     init();
-            // }
-            
-        // console.log("Returned Data ", returnData)
-
 }
-
-// let stuff = ''
-// main(viewAllEmployees(), function(result){
-//     stuff = result;
-// });
-
-// console.log("STUFF", stuff)
     
 
 app.use((req, res) => {
