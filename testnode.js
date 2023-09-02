@@ -5,12 +5,13 @@ const questions = require('./questions.js')
 const table = require('./table.js')
 const PORT = process.env.PORT || 3001;
 const app = express();
+const queryDict = {'View All Employees': viewAllEmployees(), 'Add Employee': 'addEmployee()', 'Update Employee Role': null, 'View All Roles': viewRoles(), 'Add Role': 'addRole()', 'View All Departments': viewDepartments(), 'Add Department': 'addDepartment()', 'Quit': 'Quit'}
 
 // Express middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-function main(query, callback) {
+function main(query) {
     const mysql = require('mysql2');
     const db = mysql.createConnection(
         {
@@ -29,7 +30,10 @@ function main(query, callback) {
                 if (err) {
                     throw err;
                 }
+                db.end();
                 table(results)
+                db.end();
+
             })
         }
 
@@ -40,6 +44,8 @@ function main(query, callback) {
 
                 }
                 table(results)
+                db.end();
+
             })
         }
 
@@ -50,7 +56,12 @@ function main(query, callback) {
 
                 }
                 table(results)
+                db.end();
             })
+        }
+
+        if (query === 'Quit') {
+            process.exit()
         }
         
         
@@ -64,11 +75,10 @@ function init() {
     .then((answers) => {
         console.log('Answered Choice: ');
         console.log(answers);
-        let returnData = ''
-        main(viewRoles(), function(result){
-            returnData = result;
-        });
-        return returnData
+        main(queryDict[answers.menu]);
+        if(answers.menu !== 'Quit') {
+            init();
+        }
     })
     .then((answers) => {
         console.log("Answers", answers)
@@ -82,3 +92,4 @@ app.use((req, res) => {
 });
 
 init();
+// console.log(queryDict['View All Employees'])

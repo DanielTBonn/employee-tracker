@@ -18,7 +18,7 @@ function addEmployee() {
     // -- Inserts user inputed name and id's retrieved from inquirer list values
    
     return `SELECT id FROM role WHERE title=?;`
-    `SELECT id FROM emloyee WHERE first_name=? AND last_name=?;`
+    `SELECT id FROM employee WHERE first_name=? AND last_name=?;`
     `INSERT INTO employee (first_name, last_name, role_id, manager_id)
     VALUES (?, ?, ?, ?);`;
 }
