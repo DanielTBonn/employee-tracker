@@ -30,7 +30,7 @@ function main(query) {
                 if (err) {
                     throw err;
                 }
-                db.end();
+                // db.end();
                 table(results)
                 db.end();
 
@@ -56,12 +56,12 @@ function main(query) {
 
                 }
                 table(results)
-                db.end();
+                return;
             })
         }
 
         if (query === 'Quit') {
-            process.exit()
+            db.end();
         }
         
         
@@ -77,11 +77,16 @@ function init() {
         console.log(answers);
         main(queryDict[answers.menu]);
         if(answers.menu !== 'Quit') {
-            init();
+            setTimeout(() => {
+                init();
+            }, 50);
         }
+        return answers;
     })
     .then((answers) => {
-        console.log("Answers", answers)
+        if (answers.menu === 'Quit') {
+            process.exit()
+        }
     } );
 
 }
