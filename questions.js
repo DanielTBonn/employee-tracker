@@ -1,3 +1,4 @@
+// const querySql  = require('./testnode.js');
 const questions = [
     {
         type: 'list',
@@ -29,7 +30,16 @@ const questions = [
         when: function(answers) {
             return answers.menu === 'Add Employee'
         }
-    },
+    }, 
+    {
+        type: 'list',
+        name: 'employees',
+        message: "What is the employee's name?",
+        choices: querySql('Get Employees'),
+        when: function(answers) {
+            return answers.menu === 'Update Employee Role'
+        }
+    }, 
     {
         type: 'input',
         name: 'roleName',
