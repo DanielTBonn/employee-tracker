@@ -23,14 +23,16 @@ function addEmployee() {
     VALUES (?, ?, ?, ?);`;
 }
 
-// // -- Update Employee Role
-// // -- 
-// // -- Query all employees and return result
-// `SELECT CONCAT(first_name, ' ', last_name) AS name FROM employee;`
-// // -- Query all roles and return result
-// `SELECT title FROM role;`
-// // -- Update employee's role
-// `UPDATE employee SET role_id=? WHERE id=?;`
+function updateEmployee() {
+    // // -- Update Employee Role
+    // // -- 
+    // // -- Query all employees and return result
+    // // -- Query all roles and return result
+    // // -- Update employee's role
+    return `SELECT CONCAT(first_name, ' ', last_name) AS name FROM employee;`
+    `SELECT title FROM role;`
+    `UPDATE employee SET role_id=? WHERE id=?;`;
+}
 
 
 
@@ -67,4 +69,4 @@ function addDepartment(){
     VALUES (?);`; 
 }
 
-module.exports = {viewAllEmployees, addEmployee, viewRoles, addRole, viewDepartments, addDepartment};
+module.exports = {viewAllEmployees, addEmployee, updateEmployee, viewRoles, addRole, viewDepartments, addDepartment};
