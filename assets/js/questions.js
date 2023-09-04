@@ -1,5 +1,6 @@
 // const querySql  = require('./testnode.js');
 const {viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices} = require('./query.js');
+
 const questionPrompt = async() => {
     const questionArray = [
     {

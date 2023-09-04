@@ -7,7 +7,6 @@ const db = mysql.createConnection({
     database: 'department_db',
 }).promise();
 
-
 const viewAllEmployees = async () => {
     const employeesQuery = `SELECT employee.id, employee.first_name, employee.last_name, title, salary, 
     name AS department, CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
@@ -114,20 +113,4 @@ const addDepartment = async (name) => {
 
 }
 
-
-module.exports = { db, viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployee, addRole, addDepartment }
-
-
-
-// console.log(questions())
-// const asyncCall = async() => {
-//     // const info = await updateEmployee('Gary Ciello', 'Account Manager');
-//     // const info = await addEmployee('Drake', 'Friday', 'Junior Software Developer', 'Daniel Bonn');
-//     const info = await managerChoices();
-//     // const obj = []
-//     // const info = await viewAllEmployees();
-//     // console.log(toTable(info))
-//     console.log(info)
-// }
-// asyncCall();
-// init();
+module.exports = { viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployee, addRole, addDepartment }

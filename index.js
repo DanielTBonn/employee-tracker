@@ -3,11 +3,6 @@ const toTable = require('./assets/js/table.js');
 const { addEmployee, updateEmployee, addRole, addDepartment } = require('./assets/js/query.js');
 const{ questionPrompt, tableFuncs, insertFuncs } = require('./assets/js/questions.js')
 
-
-
-
-
-
 async function init() {
 
     let questions = await questionPrompt();
