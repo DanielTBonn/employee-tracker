@@ -1,46 +1,44 @@
 const inquirer = require('inquirer');
-const questions = require('./questions.js')
-// const {db} = require('./server.js')
+const toTable = require('./assets/js/table.js');
+const { addEmployee, updateEmployee, addRole, addDepartment } = require('./assets/js/query.js');
+const{ questionPrompt, tableFuncs, insertFuncs } = require('./assets/js/questions.js')
 
-function init() {
-    console.log("Welcome to the department's records!");
-    console.log("Would you like to add anything?\n");
+
+
+
+
+
+async function init() {
+
+    let questions = await questionPrompt();
+    const answers = await inquirer.prompt(questions)
+    const inserts = await insertFuncs();
+    const tables = await tableFuncs();
+
+    console.log(answers)
     
-    inquirer
-    .prompt(questions)
-    .then((answers) => {
-        console.log('Answered Choice: ');
-        console.log(answers);
-        if (answers.menu !== 'Quit') {
-            init();
+    if (inserts[answers.menu]) {
+        if (answers.menu === 'Add Employee') {
+            await addEmployee(answers.employeeFirst, answers.employeeLast, answers.employeeRole, answers.employeeManager);
+        } else if (answers.menu === 'Update Employee Role') {
+            await updateEmployee(answers.employeeNames, answers.roleName);
+        } else if (answers.menu === 'Add Role') { 
+            await addRole(answers.newRoleName, answers.roleSalary, answers.roleDepartment);
+        } else if (answers.menu === 'Add Department') { 
+            await addDepartment(answers.departmentName);
         }
-        // else if (answers.menu === 'View All Employees') {
-        //     app();
-        //     db.query('SELECT * FROM `employee`', function(err, results) {
-        //         console.log("index.js results: ",results)
+    } else if (tables[answers.menu]) {
+        const table = tables[answers.menu];
+        toTable(table);
+    }
 
-        //     })
-        // }
-    })
-    // .on('done', (answers) => {
-    //     console.log('It is done!')
-    // })
-
+    console.log("Hello inserts", inserts[answers.menu] )
+    if (answers.menu !== 'Quit') {
+        init();
+    } else {
+        process.exit();
+    }
 
 }
 
-// init();
-
-module.exports = init();
-
-// module.exports = init();
-
-// function add2 (n) {
-//     return n + 2;
-// }
-
-// const testClass = {
-//     called: (n) => {return n + 2}
-// }
-
-// console.log(testClass.called(3))
+init();
