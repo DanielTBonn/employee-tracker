@@ -67,10 +67,27 @@ const roleChoices = async () => {
     let returnRoles = justRoles.map(justRoles => justRoles.title)
     return returnRoles;
 }
+
 const employeeChoices = async () => {
     const employeeQuery = `SELECT CONCAT(first_name, ' ', last_name) AS name FROM employee;`;
     const employees = await db.query(employeeQuery);
     return employees[0];
+}
+
+const addEmployee = async (first_name, last_name, role, manager) => {
+    const roleIdQuery = `SELECT id FROM role WHERE title=?;`;
+    const roleId = await db.query(roleIdQuery, [role])
+
+    const idQuery = `SELECT id FROM employee WHERE CONCAT(first_name, ' ', last_name)=?;`;
+    const managerId = await db.query(idQuery, [manager]);
+
+    const addQuery = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+    VALUES (?, ?, ?, ?);`;
+
+    // return [first_name, last_name, roleId[0][0].id, managerId[0][0].id];
+    await db.query(addQuery, [first_name, last_name, roleId[0][0].id, managerId[0][0].id]);
+
+
 }
 
 const updateEmployee = async (name, role) => {
@@ -96,6 +113,40 @@ const questionPrompt = async() => {
         name: 'menu',
         message: 'What would you like to do?',
         choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
+    },
+    {
+        type: 'input',
+        name: 'employeeFirst',
+        message: "What is the employee's first name? ",
+        when: function(answers) {
+            return answers.menu === 'Add Employee'
+        }
+    },
+    {
+        type: 'input',
+        name: 'employeeLast',
+        message: "What is the employee's last name? ",
+        when: function(answers) {
+            return answers.menu === 'Add Employee'
+        }
+    },
+    {
+        type: 'list',
+        name: 'employeeRole',
+        message: "What role is it?",
+        choices: await roleChoices(),
+        when: function(answers) {
+            return answers.menu === 'Add Employee'
+        }
+    }, 
+    {
+        type: 'list',
+        name: 'employeeManager',
+        message: "Who is the employee's manager? ",
+        choices: await employeeChoices(),
+        when: function(answers) {
+            return answers.menu === 'Add Employee'
+        }
     },
     {
         type: 'list',
@@ -131,9 +182,9 @@ async function init() {
         
         if (inserts[answers.menu]) {
             if (answers.menu === 'Add Employee') {
-                return;
+                addEmployee(answers.employeeFirst, answers.employeeLast, answers.employeeRole, answers.employeeManager);
             } else if (answers.menu === 'Update Employee Role') {
-                updateEmployee(answers.employeeNames, answers.roleName)
+                updateEmployee(answers.employeeNames, answers.roleName);
             } else if (answers.menu === 'Add Role') { 
                 return;
             } else if (answers.menu === 'Add Department') { 
@@ -155,7 +206,9 @@ async function init() {
 
 // console.log(questions())
 const asyncCall = async() => {
-    const info = await updateEmployee('Gary Ciello', 'Account Manager');
+    // const info = await updateEmployee('Gary Ciello', 'Account Manager');
+    const info = await addEmployee('Daniel', 'Bonn', 'Junior Software Developer', 'Sally Weston');
+
     // const info = await viewAllEmployees();
     console.log(info)
 }
