@@ -1,6 +1,7 @@
 // const querySql  = require('./testnode.js');
 const {viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices} = require('./query.js');
 
+// Question prompt for inquirer, follow up questions are based on choices from the 'menu' question
 const questionPrompt = async() => {
     const questionArray = [
     {
@@ -39,6 +40,7 @@ const questionPrompt = async() => {
         name: 'employeeManager',
         message: "Who is the employee's manager? ",
         choices: await managerChoices(),
+        // If the option of 'None' is chosen returns a null value for sql processing
         filter: (input, answers) =>  {
             if (input === 'None') {
                 return null;
@@ -104,6 +106,7 @@ const questionPrompt = async() => {
     return questionArray;
 } 
 
+// Performs logic if our menu option is in returnTables
 const tableFuncs = async() => {
 
     const returnTables = {
@@ -114,6 +117,7 @@ const tableFuncs = async() => {
     return returnTables;
 }
 
+// Performs logic if our menu option is in inserts
 const insertFuncs = async() => {
 
     const inserts = {
