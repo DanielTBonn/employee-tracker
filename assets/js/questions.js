@@ -8,7 +8,7 @@ const questionPrompt = async() => {
         type: 'list',
         name: 'menu',
         message: 'What would you like to do?',
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
+        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
     },
     {
         type: 'input',
@@ -37,6 +37,15 @@ const questionPrompt = async() => {
     }, 
     {
         type: 'list',
+        name: 'employeeNames',
+        message: "What is the employee's name?",
+        choices: await employeeChoices(),
+        when: function(answers) {
+            return answers.menu === 'Update Employee Role' || answers.menu === 'Update Employee Manager'
+        }
+    }, 
+    {
+        type: 'list',
         name: 'employeeManager',
         message: "Who is the employee's manager? ",
         choices: await managerChoices(),
@@ -48,18 +57,9 @@ const questionPrompt = async() => {
             return input
         },
         when: function(answers) {
-            return answers.menu === 'Add Employee'
+            return answers.menu === 'Add Employee' || answers.menu === 'Update Employee Manager'
         },
     },
-    {
-        type: 'list',
-        name: 'employeeNames',
-        message: "What is the employee's name?",
-        choices: await employeeChoices(),
-        when: function(answers) {
-            return answers.menu === 'Update Employee Role'
-        }
-    }, 
     {
         type: 'list',
         name: 'roleName',
@@ -122,6 +122,7 @@ const insertFuncs = async() => {
 
     const inserts = {
             'Update Employee Role': 'Update employees',
+            'Update Employee Manager': 'Update employees',
             'Add Employee': 'Add new employee',
             'Add Role': 'Add new roles',
             'Add Department': 'Add new departments',

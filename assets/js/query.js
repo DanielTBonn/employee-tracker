@@ -89,7 +89,7 @@ const addEmployee = async (first_name, last_name, role, manager) => {
 }
 
 // Updates an employees role in the sql database
-const updateEmployee = async (name, role) => {
+const updateEmployeeRole = async (name, role) => {
     const idQuery = `SELECT id FROM employee WHERE CONCAT(first_name, ' ', last_name)=?;`;
     const employeeId = await db.query(idQuery, [name]);
 
@@ -101,6 +101,23 @@ const updateEmployee = async (name, role) => {
     await db.query(updateQuery, [roleId[0][0].id, employeeId[0][0].id])
 
     return [employeeId[0][0].id, roleId[0][0].id];
+
+}
+
+const updateEmployeeManager = async (name, manager) => {
+    const idQuery = `SELECT id FROM employee WHERE CONCAT(first_name, ' ', last_name)=?;`;
+    const employeeId = await db.query(idQuery, [name]);
+    
+    let managerId = null;
+    if (manager) {
+        managerQuery = await db.query(idQuery, [manager]);
+        managerId = managerQuery[0][0].id
+    }
+
+    const updateQuery = `UPDATE employee SET manager_id=? WHERE id=?;`
+    
+    await db.query(updateQuery, [managerId, employeeId[0][0].id])
+
 
 }
 
@@ -125,4 +142,4 @@ const addDepartment = async (name) => {
 
 }
 
-module.exports = { db, viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployee, addRole, addDepartment }
+module.exports = { db, viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment }
