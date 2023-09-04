@@ -1,6 +1,4 @@
-const inquirer = require('inquirer');
 const mysql = require('mysql2');
-const toTable = require('./table.js');
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -9,30 +7,6 @@ const db = mysql.createConnection({
     database: 'department_db',
 }).promise();
 
-const insertFuncs = async() => {
-
-    const inserts = {
-            'Update Employee Role': 'Update employees',
-        
-            'Add Employee': 'Add new employee',
-        
-            'Add Role': 'Add new roles',
-        
-            'Add Department': 'Add new departments',
-        }
-    
-    return inserts;
-}
-
-const tableFuncs = async() => {
-
-    const returnTables = {
-        'View All Employees': await viewAllEmployees(),
-        'View All Roles': await viewRoles(),
-        'View All Departments': await viewDepartments(),
-    }
-    return returnTables;
-}
 
 const viewAllEmployees = async () => {
     const employeesQuery = `SELECT employee.id, employee.first_name, employee.last_name, title, salary, 
@@ -140,7 +114,6 @@ const addDepartment = async (name) => {
 
 }
 
-
 const questionPrompt = async() => {
     const questionArray = [
     {
@@ -183,9 +156,11 @@ const questionPrompt = async() => {
             return answers.menu === 'Add Employee'
         },
         filter: function(answers) {
+            console.log(answers);
             if (answers.employeeManager === 'None') {
                 return null;
-            }
+            } 
+            return answers.employeeManager
         }
     },
     {
@@ -243,49 +218,19 @@ const questionPrompt = async() => {
     return questionArray;
 } 
 
+module.exports = { db, viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployee, addRole, addDepartment, questionPrompt }
 
-async function init() {
 
-        let questions = await questionPrompt();
-        const answers = await inquirer.prompt(questions)
-        const inserts = await insertFuncs();
-        const tables = await tableFuncs();
-
-        console.log(answers)
-        
-        if (inserts[answers.menu]) {
-            if (answers.menu === 'Add Employee') {
-                await addEmployee(answers.employeeFirst, answers.employeeLast, answers.employeeRole, answers.employeeManager);
-            } else if (answers.menu === 'Update Employee Role') {
-                await updateEmployee(answers.employeeNames, answers.roleName);
-            } else if (answers.menu === 'Add Role') { 
-                await addRole(answers.newRoleName, answers.roleSalary, answers.roleDepartment);
-            } else if (answers.menu === 'Add Department') { 
-                await addDepartment(answers.departmentName);
-            }
-        } else if (tables[answers.menu]) {
-            const table = tables[answers.menu];
-            toTable(table);
-        }
-
-        console.log("Hello inserts", inserts[answers.menu] )
-        if (answers.menu !== 'Quit') {
-            init();
-        } else {
-            process.exit();
-        }
-    
-}
 
 // console.log(questions())
-const asyncCall = async() => {
-    // const info = await updateEmployee('Gary Ciello', 'Account Manager');
-    // const info = await addEmployee('Drake', 'Friday', 'Junior Software Developer', 'Daniel Bonn');
-    const info = await managerChoices();
-    // const obj = []
-    // const info = await viewAllEmployees();
-    // console.log(toTable(info))
-    console.log(info)
-}
+// const asyncCall = async() => {
+//     // const info = await updateEmployee('Gary Ciello', 'Account Manager');
+//     // const info = await addEmployee('Drake', 'Friday', 'Junior Software Developer', 'Daniel Bonn');
+//     const info = await managerChoices();
+//     // const obj = []
+//     // const info = await viewAllEmployees();
+//     // console.log(toTable(info))
+//     console.log(info)
+// }
 // asyncCall();
-init();
+// init();
