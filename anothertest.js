@@ -27,7 +27,8 @@ const insertFuncs = async() => {
 const tableFuncs = async() => {
 
     const returnTables = {
-        'View All Employees': viewAllEmployees(),
+        'View All Employees': await viewAllEmployees(),
+        'View All Roles': await viewRoles(),
     }
     return returnTables;
 }
@@ -41,6 +42,15 @@ const viewAllEmployees = async () => {
     LEFT JOIN department ON department_id=department.id;`;
     const employees = await db.query(employeesQuery);
     return employees[0];
+}
+
+const viewRoles = async () => {
+    // -- View All Roles
+    const rolesQuery = `SELECT role.id, title, name AS department, salary 
+    FROM role 
+    LEFT JOIN department ON department_id=department.id;`;
+    const roles = await db.query(rolesQuery);
+    return roles[0];
 }
     
 const roleChoices = async () => {
@@ -123,7 +133,7 @@ async function init() {
                 return;
             }
         } else if (tables[answers.menu]) {
-            const table = await tables[answers.menu];
+            const table = tables[answers.menu];
             toTable(table);
         }
 
