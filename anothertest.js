@@ -152,16 +152,15 @@ const questionPrompt = async() => {
         name: 'employeeManager',
         message: "Who is the employee's manager? ",
         choices: await managerChoices(),
+        filter: (input, answers) =>  {
+            if (input === 'None') {
+                return null;
+            } 
+            return input
+        },
         when: function(answers) {
             return answers.menu === 'Add Employee'
         },
-        filter: function(answers) {
-            console.log(answers);
-            if (answers.employeeManager === 'None') {
-                return null;
-            } 
-            return answers.employeeManager
-        }
     },
     {
         type: 'list',
