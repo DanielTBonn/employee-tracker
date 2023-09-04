@@ -36,4 +36,17 @@ async function init() {
 
 }
 
+// init();
+
+// console.log(questions())
+// const asyncCall = async() => {
+//     // const info = await updateEmployee('Gary Ciello', 'Account Manager');
+//     // const info = await addEmployee('Drake', 'Friday', 'Junior Software Developer', 'Daniel Bonn');
+//     const info = await managerChoices();
+//     // const obj = []
+//     // const info = await viewAllEmployees();
+//     // console.log(toTable(info))
+//     console.log(info)
+// }
+// asyncCall();
 init();

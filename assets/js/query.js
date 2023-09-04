@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 
+// Promise based connection to our database
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -7,6 +8,7 @@ const db = mysql.createConnection({
     database: 'department_db',
 }).promise();
 
+// Queries all employees and returns information about them
 const viewAllEmployees = async () => {
     const employeesQuery = `SELECT employee.id, employee.first_name, employee.last_name, title, salary, 
     name AS department, CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
@@ -18,6 +20,7 @@ const viewAllEmployees = async () => {
     return employees[0];
 }
 
+// Queries all roles and returns information about them
 const viewRoles = async () => {
     // -- View All Roles
     const rolesQuery = `SELECT role.id, title, name AS department, salary 
@@ -27,18 +30,21 @@ const viewRoles = async () => {
     return roles[0];
 }
 
+// Queries all departments and returns information about them
 const viewDepartments = async () => {
     const departmentQuery = `SELECT * FROM department;`;
     const departments = await db.query(departmentQuery);
     return departments[0];
 }
 
+// Returns all department names
 const departmentChoices = async () => {
     const departmentQuery = `SELECT name FROM department`;
     const departments = await db.query(departmentQuery);
     return departments[0];
 }
 
+// Returns all role names
 const roleChoices = async () => {
     const roleQuery = `SELECT title, id FROM role;`;
     const roles = await db.query(roleQuery);
@@ -47,18 +53,21 @@ const roleChoices = async () => {
     return returnRoles;
 }
 
+// Returns all employee names
 const employeeChoices = async () => {
     const employeeQuery = `SELECT CONCAT(first_name, ' ', last_name) AS name FROM employee;`;
     const employees = await db.query(employeeQuery);
     return employees[0];
 }
 
+// Returns all employee names including a None option
 const managerChoices = async () => {
     const managers = await employeeChoices();
     managers.push({'name': 'None'})
     return managers;
 }
 
+// Adds an employee to the sql database
 const addEmployee = async (first_name, last_name, role, manager) => {
     const roleIdQuery = `SELECT id FROM role WHERE title=?;`;
     const roleId = await db.query(roleIdQuery, [role])
@@ -79,6 +88,7 @@ const addEmployee = async (first_name, last_name, role, manager) => {
 
 }
 
+// Updates an employees role in the sql database
 const updateEmployee = async (name, role) => {
     const idQuery = `SELECT id FROM employee WHERE CONCAT(first_name, ' ', last_name)=?;`;
     const employeeId = await db.query(idQuery, [name]);
@@ -94,6 +104,7 @@ const updateEmployee = async (name, role) => {
 
 }
 
+// Adds a new role to the sql database
 const addRole = async (title, salary, department) => {
     const departmentQuery = `SELECT id FROM department WHERE name=?;`;
     const departmentId = await db.query(departmentQuery, [department]);
@@ -105,6 +116,7 @@ const addRole = async (title, salary, department) => {
 
 }
 
+// Adds a new department to the sql database
 const addDepartment = async (name) => {
     const addQuery = `INSERT INTO department (name)
     VALUES (?);`; 
@@ -113,4 +125,4 @@ const addDepartment = async (name) => {
 
 }
 
-module.exports = { viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployee, addRole, addDepartment }
+module.exports = { db, viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployee, addRole, addDepartment }
