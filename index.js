@@ -1,32 +1,12 @@
 const inquirer = require('inquirer');
 const toTable = require('./table.js');
-const { db, viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployee, addRole, addDepartment, questionPrompt } = require('./anothertest.js');
+const { addEmployee, updateEmployee, addRole, addDepartment } = require('./anothertest.js');
+const{ questionPrompt, tableFuncs, insertFuncs } = require('./questions.js')
 
 
-const insertFuncs = async() => {
 
-    const inserts = {
-            'Update Employee Role': 'Update employees',
-        
-            'Add Employee': 'Add new employee',
-        
-            'Add Role': 'Add new roles',
-        
-            'Add Department': 'Add new departments',
-        }
-    
-    return inserts;
-}
 
-const tableFuncs = async() => {
 
-    const returnTables = {
-        'View All Employees': await viewAllEmployees(),
-        'View All Roles': await viewRoles(),
-        'View All Departments': await viewDepartments(),
-    }
-    return returnTables;
-}
 
 async function init() {
 

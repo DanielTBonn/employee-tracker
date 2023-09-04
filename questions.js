@@ -1,9 +1,11 @@
 // const querySql  = require('./testnode.js');
-const questions = [
+const {viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices} = require('./anothertest.js');
+const questionPrompt = async() => {
+    const questionArray = [
     {
         type: 'list',
         name: 'menu',
-        message: 'What would you like to do? (use arrow keys)',
+        message: 'What would you like to do?',
         choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
     },
     {
@@ -24,25 +26,49 @@ const questions = [
     },
     {
         type: 'list',
-        name: 'employeeManager',
-        message: "Who is the employee's manager? ",
-        choices: ['Kim', 'Tay', 'Sal', 'None'],
+        name: 'employeeRole',
+        message: "What role is it?",
+        choices: await roleChoices(),
         when: function(answers) {
             return answers.menu === 'Add Employee'
         }
     }, 
     {
         type: 'list',
-        name: 'employees',
+        name: 'employeeManager',
+        message: "Who is the employee's manager? ",
+        choices: await managerChoices(),
+        filter: (input, answers) =>  {
+            if (input === 'None') {
+                return null;
+            } 
+            return input
+        },
+        when: function(answers) {
+            return answers.menu === 'Add Employee'
+        },
+    },
+    {
+        type: 'list',
+        name: 'employeeNames',
         message: "What is the employee's name?",
-        choices: querySql('Get Employees'),
+        choices: await employeeChoices(),
         when: function(answers) {
             return answers.menu === 'Update Employee Role'
         }
     }, 
     {
-        type: 'input',
+        type: 'list',
         name: 'roleName',
+        message: "What role is it?",
+        choices: await roleChoices(),
+        when: function(answers) {
+            return answers.menu === 'Update Employee Role'
+        }
+    },
+    {
+        type: 'input',
+        name: 'newRoleName',
         message: "What is the role's name? ",
         when: function(answers) {
             return answers.menu === 'Add Role'
@@ -60,7 +86,7 @@ const questions = [
         type: 'list',
         name: 'roleDepartment',
         message: "What is the role's department? ",
-        choices: ['Finance', 'Engineering'],
+        choices: await departmentChoices(),
         when: function(answers) {
             return answers.menu === 'Add Role'
         }
@@ -72,7 +98,30 @@ const questions = [
         when: function(answers) {
             return answers.menu === 'Add Department'
         }
-    },
+    }, 
 ]
+    return questionArray;
+} 
 
-module.exports = questions;
+const tableFuncs = async() => {
+
+    const returnTables = {
+        'View All Employees': await viewAllEmployees(),
+        'View All Roles': await viewRoles(),
+        'View All Departments': await viewDepartments(),
+    }
+    return returnTables;
+}
+
+const insertFuncs = async() => {
+
+    const inserts = {
+            'Update Employee Role': 'Update employees',
+            'Add Employee': 'Add new employee',
+            'Add Role': 'Add new roles',
+            'Add Department': 'Add new departments',
+        }
+    return inserts;
+}
+
+module.exports = {questionPrompt, tableFuncs, insertFuncs};
