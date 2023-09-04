@@ -41,7 +41,7 @@ const viewEmployeesByManager = async (manager) => {
     const idQuery = `SELECT id FROM employee WHERE CONCAT(first_name, ' ', last_name)=?;`;
     let managerId = null;
     if (manager) {
-        managerQuery = await db.query(idQuery, [manager]);
+        const managerQuery = await db.query(idQuery, [manager]);
         managerId = managerQuery[0][0].id
     }
 
@@ -55,6 +55,27 @@ const viewEmployeesByManager = async (manager) => {
 
     const managedEmployees = await db.query(employeesQuery, [managerId])
     return managedEmployees[0];
+}
+
+const viewEmployeesByDepartment = async (department) => {
+    const idQuery = `SELECT id FROM department WHERE name=?;`;
+    let departmentId = null;
+    if (department) {
+        const departmentQuery = await db.query(idQuery, [department]);
+        departmentId = departmentQuery[0][0].id
+    }
+
+    const employeesQuery = `SELECT employee.id, employee.first_name, employee.last_name, title, salary, 
+    name AS department, CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
+    FROM employee 
+    LEFT JOIN employee AS manager ON manager.id=employee.manager_id 
+    LEFT JOIN role ON role.id=employee.role_id 
+    LEFT JOIN department ON department_id=department.id 
+    WHERE department.id=?;`;
+
+    const managedEmployees = await db.query(employeesQuery, [departmentId])
+    return managedEmployees[0];
+
 }
 
 // Returns all department names
@@ -162,4 +183,4 @@ const addDepartment = async (name) => {
 
 }
 
-module.exports = { viewAllEmployees, viewEmployeesByManager, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment }
+module.exports = { viewAllEmployees, viewEmployeesByManager, viewEmployeesByDepartment, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment }

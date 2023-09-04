@@ -1,7 +1,7 @@
 // Dependicies and functions we will use to execute inquirer
 const inquirer = require('inquirer');
 const toTable = require('./assets/js/table.js');
-const { viewEmployeesByManager, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment } = require('./assets/js/query.js');
+const { viewEmployeesByManager, viewEmployeesByDepartment, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment } = require('./assets/js/query.js');
 const{ questionPrompt, tableFuncs, insertFuncs } = require('./assets/js/questions.js')
 
 // Async function because we wait on our queries in the form of promises
@@ -34,6 +34,14 @@ async function init() {
             } else {
                 console.log("No employees under their management")
             }
+
+        } else if (answers.menu === 'View Employees By Department') {
+            const newTable = await viewEmployeesByDepartment(answers.departmentSearch)
+            if (newTable.length > 1) {
+                toTable(newTable)
+            } else {
+                console.log("No employees in this department")
+            }
         }
     // Otherwise we create a table with queried data
     } else if (tables[answers.menu]) {
@@ -51,12 +59,13 @@ async function init() {
 
 }
 
+
 // init();
 
 const asyncCall = async() => {
     // const info = await updateEmployee('Gary Ciello', 'Account Manager');
     // const info = await addEmployee('Drake', 'Friday', 'Junior Software Developer', 'Daniel Bonn');
-    const info = await viewEmployeesByManager('Ashley Benson');
+    const info = await viewEmployeesByDepartment('Finance');
     // const obj = []
     // const info = await viewAllEmployees();
     console.log(toTable(info))

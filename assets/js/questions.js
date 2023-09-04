@@ -8,7 +8,7 @@ const questionPrompt = async() => {
         type: 'list',
         name: 'menu',
         message: 'What would you like to do?',
-        choices: ['View All Employees', 'View Employees By Manager', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
+        choices: ['View All Employees', 'View Employees By Manager', 'View Employees By Department', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
     },
     {
         type: 'input',
@@ -110,6 +110,15 @@ const questionPrompt = async() => {
         when: function(answers) {
             return answers.menu === 'View Employees By Manager';
         }
+    },
+    {
+        type: 'list',
+        name: 'departmentSearch',
+        message: "Which departments employees would you like to view? ",
+        choices: await departmentChoices(),
+        when: function(answers) {
+            return answers.menu === 'View Employees By Department';
+        }
     }, 
 ]
     return questionArray;
@@ -136,6 +145,7 @@ const insertFuncs = async() => {
             'Add Role': 'Add new roles',
             'Add Department': 'Add new departments',
             'View Employees By Manager': 'View employees by manager',
+            'View Employees By Department': 'View employees by department'
         }
     return inserts;
 }
