@@ -1,5 +1,5 @@
 // const querySql  = require('./testnode.js');
-const {viewAllEmployees, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices} = require('./query.js');
+const {viewAllEmployees, viewEmployeesByManager, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices} = require('./query.js');
 
 // Question prompt for inquirer, follow up questions are based on choices from the 'menu' question
 const questionPrompt = async() => {
@@ -8,14 +8,14 @@ const questionPrompt = async() => {
         type: 'list',
         name: 'menu',
         message: 'What would you like to do?',
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
+        choices: ['View All Employees', 'View Employees By Manager', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
     },
     {
         type: 'input',
         name: 'employeeFirst',
         message: "What is the employee's first name? ",
         when: function(answers) {
-            return answers.menu === 'Add Employee'
+            return answers.menu === 'Add Employee';
         }
     },
     {
@@ -23,7 +23,7 @@ const questionPrompt = async() => {
         name: 'employeeLast',
         message: "What is the employee's last name? ",
         when: function(answers) {
-            return answers.menu === 'Add Employee'
+            return answers.menu === 'Add Employee';
         }
     },
     {
@@ -32,7 +32,7 @@ const questionPrompt = async() => {
         message: "What role is it?",
         choices: await roleChoices(),
         when: function(answers) {
-            return answers.menu === 'Add Employee'
+            return answers.menu === 'Add Employee';
         }
     }, 
     {
@@ -41,7 +41,7 @@ const questionPrompt = async() => {
         message: "What is the employee's name?",
         choices: await employeeChoices(),
         when: function(answers) {
-            return answers.menu === 'Update Employee Role' || answers.menu === 'Update Employee Manager'
+            return answers.menu === 'Update Employee Role' || answers.menu === 'Update Employee Manager';
         }
     }, 
     {
@@ -57,7 +57,7 @@ const questionPrompt = async() => {
             return input
         },
         when: function(answers) {
-            return answers.menu === 'Add Employee' || answers.menu === 'Update Employee Manager'
+            return answers.menu === 'Add Employee' || answers.menu === 'Update Employee Manager';
         },
     },
     {
@@ -66,7 +66,7 @@ const questionPrompt = async() => {
         message: "What role is it?",
         choices: await roleChoices(),
         when: function(answers) {
-            return answers.menu === 'Update Employee Role'
+            return answers.menu === 'Update Employee Role';
         }
     },
     {
@@ -74,7 +74,7 @@ const questionPrompt = async() => {
         name: 'newRoleName',
         message: "What is the role's name? ",
         when: function(answers) {
-            return answers.menu === 'Add Role'
+            return answers.menu === 'Add Role';
         }
     },
     {
@@ -82,7 +82,7 @@ const questionPrompt = async() => {
         name: 'roleSalary',
         message: "What is the role's salary? ",
         when: function(answers) {
-            return answers.menu === 'Add Role'
+            return answers.menu === 'Add Role';
         }
     },
     {
@@ -91,7 +91,7 @@ const questionPrompt = async() => {
         message: "What is the role's department? ",
         choices: await departmentChoices(),
         when: function(answers) {
-            return answers.menu === 'Add Role'
+            return answers.menu === 'Add Role';
         }
     },
     {
@@ -99,7 +99,16 @@ const questionPrompt = async() => {
         name: 'departmentName',
         message: "What is the department's name? ",
         when: function(answers) {
-            return answers.menu === 'Add Department'
+            return answers.menu === 'Add Department';
+        }
+    }, 
+    {
+        type: 'list',
+        name: 'managerNames',
+        message: "What is the manager's name?",
+        choices: await employeeChoices(),
+        when: function(answers) {
+            return answers.menu === 'View Employees By Manager';
         }
     }, 
 ]
@@ -126,6 +135,7 @@ const insertFuncs = async() => {
             'Add Employee': 'Add new employee',
             'Add Role': 'Add new roles',
             'Add Department': 'Add new departments',
+            'View Employees By Manager': 'View employees by manager',
         }
     return inserts;
 }

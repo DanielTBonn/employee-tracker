@@ -1,7 +1,7 @@
 // Dependicies and functions we will use to execute inquirer
 const inquirer = require('inquirer');
 const toTable = require('./assets/js/table.js');
-const { addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment } = require('./assets/js/query.js');
+const { viewEmployeesByManager, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment } = require('./assets/js/query.js');
 const{ questionPrompt, tableFuncs, insertFuncs } = require('./assets/js/questions.js')
 
 // Async function because we wait on our queries in the form of promises
@@ -27,6 +27,13 @@ async function init() {
             await addRole(answers.newRoleName, answers.roleSalary, answers.roleDepartment);
         } else if (answers.menu === 'Add Department') { 
             await addDepartment(answers.departmentName);
+        } else if (answers.menu === 'View Employees By Manager') {
+            const newTable = await viewEmployeesByManager(answers.managerNames)
+            if (newTable.length > 1) {
+                toTable(newTable)
+            } else {
+                console.log("No employees under their management")
+            }
         }
     // Otherwise we create a table with queried data
     } else if (tables[answers.menu]) {
@@ -46,15 +53,14 @@ async function init() {
 
 // init();
 
-// console.log(questions())
-// const asyncCall = async() => {
-//     // const info = await updateEmployee('Gary Ciello', 'Account Manager');
-//     // const info = await addEmployee('Drake', 'Friday', 'Junior Software Developer', 'Daniel Bonn');
-//     const info = await managerChoices();
-//     // const obj = []
-//     // const info = await viewAllEmployees();
-//     // console.log(toTable(info))
-//     console.log(info)
-// }
+const asyncCall = async() => {
+    // const info = await updateEmployee('Gary Ciello', 'Account Manager');
+    // const info = await addEmployee('Drake', 'Friday', 'Junior Software Developer', 'Daniel Bonn');
+    const info = await viewEmployeesByManager('Ashley Benson');
+    // const obj = []
+    // const info = await viewAllEmployees();
+    console.log(toTable(info))
+    // console.log(info)
+}
 // asyncCall();
 init();
