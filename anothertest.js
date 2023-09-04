@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
+const toTable = require('./table.js');
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -8,37 +9,86 @@ const db = mysql.createConnection({
     database: 'department_db',
 }).promise();
 
+const insertFuncs = async() => {
 
+    const inserts = {
+            'Update Employee Role': 'Update employees',
+        
+            'Add Employee': 'Add new employee',
+        
+            'Add Role': 'Add new roles',
+        
+            'Add Department': 'Add new departments',
+        }
+    
+    return inserts;
+}
+
+const tableFuncs = async() => {
+
+    const returnTables = {
+        'View All Employees': viewAllEmployees(),
+    }
+    return returnTables;
+}
+
+const viewAllEmployees = async () => {
+    const employeesQuery = `SELECT employee.id, employee.first_name, employee.last_name, title, salary, 
+    name AS department, CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
+    FROM employee 
+    LEFT JOIN employee AS manager ON manager.id=employee.manager_id 
+    LEFT JOIN role ON role.id=employee.role_id 
+    LEFT JOIN department ON department_id=department.id;`;
+    const employees = await db.query(employeesQuery);
+    return employees[0];
+}
+    
+const roleChoices = async () => {
+    const roleQuery = `SELECT title, id FROM role;`;
+    const roles = await db.query(roleQuery);
+    let justRoles = roles[0]
+    let returnRoles = justRoles.map(justRoles => justRoles.title)
+    return returnRoles;
+}
 const employeeChoices = async () => {
     const employeeQuery = `SELECT CONCAT(first_name, ' ', last_name) AS name FROM employee;`;
     const employees = await db.query(employeeQuery);
     return employees[0];
 }
 
-const roleChoices = async () => {
-    const roleQuery = `SELECT title FROM role;`;
-    const roles = await db.query(roleQuery);
-    // console.log(roles);
-    return roles[0];
+const updateEmployee = async (name, role) => {
+    const idQuery = `SELECT id FROM employee WHERE CONCAT(first_name, ' ', last_name)=?;`;
+    const employeeId = await db.query(idQuery, [name]);
+
+    const roleIdQuery = `SELECT id FROM role WHERE title=?;`;
+    const roleId = await db.query(roleIdQuery, [role])
+
+    const updateQuery = `UPDATE employee SET role_id=? WHERE id=?;`
+    
+    await db.query(updateQuery, [roleId[0][0].id, employeeId[0][0].id])
+
+    return [employeeId[0][0].id, roleId[0][0].id];
+
 }
+
 
 const questionPrompt = async() => {
     const questionArray = [
     {
         type: 'list',
         name: 'menu',
-        message: 'What would you like to do? (use arrow keys)',
+        message: 'What would you like to do?',
         choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
     },
-    // {
-    //     type: 'list',
-    //     name: 'employeeNames',
-    //     message: "What is the employee's name?",
-    //     choices: await employeeChoices(),
-    //     when: function(answers) {
-    //         return answers.menu === 'Update Employee Role'
-    //     }
-    // }, 
+    {
+        type: 'list',
+        name: 'employeeNames',
+        message: "What is the employee's name?",
+        choices: await employeeChoices(),
+        when: function(answers) {
+            return answers.menu === 'Update Employee Role'
+        }
+    }, 
     {
         type: 'list',
         name: 'roleName',
@@ -57,8 +107,27 @@ async function init() {
 
         let questions = await questionPrompt();
         const answers = await inquirer.prompt(questions)
-        const roles = await roleChoices();
-        console.log(roles)
+        const inserts = await insertFuncs();
+        const tables = await tableFuncs();
+
+        console.log(answers)
+        
+        if (inserts[answers.menu]) {
+            if (answers.menu === 'Add Employee') {
+                return;
+            } else if (answers.menu === 'Update Employee Role') {
+                updateEmployee(answers.employeeNames, answers.roleName)
+            } else if (answers.menu === 'Add Role') { 
+                return;
+            } else if (answers.menu === 'Add Department') { 
+                return;
+            }
+        } else if (tables[answers.menu]) {
+            const table = await tables[answers.menu];
+            toTable(table);
+        }
+
+        console.log("Hello inserts", inserts[answers.menu] )
         if (answers.menu !== 'Quit') {
             init();
         } else {
@@ -69,9 +138,9 @@ async function init() {
 
 // console.log(questions())
 const asyncCall = async() => {
-    const info = await roleChoices();
+    const info = await updateEmployee('Gary Ciello', 'Account Manager');
+    // const info = await viewAllEmployees();
     console.log(info)
 }
 // asyncCall();
 init();
-
