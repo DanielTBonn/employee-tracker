@@ -29,6 +29,7 @@ const tableFuncs = async() => {
     const returnTables = {
         'View All Employees': await viewAllEmployees(),
         'View All Roles': await viewRoles(),
+        'View All Departments': await viewDepartments(),
     }
     return returnTables;
 }
@@ -51,6 +52,12 @@ const viewRoles = async () => {
     LEFT JOIN department ON department_id=department.id;`;
     const roles = await db.query(rolesQuery);
     return roles[0];
+}
+
+const viewDepartments = async () => {
+    const departmentQuery = `SELECT * FROM department;`;
+    const departments = await db.query(departmentQuery);
+    return departments[0];
 }
     
 const roleChoices = async () => {
