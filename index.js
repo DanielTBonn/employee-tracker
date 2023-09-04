@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
-const toTable = require('./table.js');
-const { addEmployee, updateEmployee, addRole, addDepartment } = require('./anothertest.js');
-const{ questionPrompt, tableFuncs, insertFuncs } = require('./questions.js')
+const toTable = require('./assets/js/table.js');
+const { addEmployee, updateEmployee, addRole, addDepartment } = require('./assets/js/query.js');
+const{ questionPrompt, tableFuncs, insertFuncs } = require('./assets/js/questions.js')
 
 
 
