@@ -8,7 +8,7 @@ const questionPrompt = async() => {
         type: 'list',
         name: 'menu',
         message: 'What would you like to do?',
-        choices: ['View All Employees', 'View Employees By Manager', 'View Employees By Department', 'View Department Budget', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
+        choices: ['View All Employees', 'View Employees By Manager', 'View Employees By Department', 'View Department Budget', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Delete Employee', 'Delete Role', 'Delete Department', 'Quit']
     },
     {
         type: 'input',
@@ -32,7 +32,7 @@ const questionPrompt = async() => {
         message: "What role is it?",
         choices: await roleChoices(),
         when: function(answers) {
-            return answers.menu === 'Add Employee';
+            return answers.menu === 'Add Employee' || answers.menu === 'Delete Role';
         }
     }, 
     {
@@ -41,7 +41,7 @@ const questionPrompt = async() => {
         message: "What is the employee's name?",
         choices: await employeeChoices(),
         when: function(answers) {
-            return answers.menu === 'Update Employee Role' || answers.menu === 'Update Employee Manager';
+            return answers.menu === 'Update Employee Role' || answers.menu === 'Update Employee Manager' || answers.menu === 'Delete Employee';
         }
     }, 
     {
@@ -114,10 +114,10 @@ const questionPrompt = async() => {
     {
         type: 'list',
         name: 'departmentSearch',
-        message: "Which departments employees would you like to view? ",
+        message: "Which department? ",
         choices: await departmentChoices(),
         when: function(answers) {
-            return answers.menu === 'View Employees By Department' || answers.menu === 'View Department Budget';
+            return answers.menu === 'View Employees By Department' || answers.menu === 'View Department Budget' || answers.menu === 'Delete Department';
         }
     }, 
 ]
@@ -146,7 +146,10 @@ const insertFuncs = async() => {
             'Add Department': 'Add new departments',
             'View Employees By Manager': 'View employees by manager',
             'View Employees By Department': 'View employees by department',
-            'View Department Budget': 'View department budget'
+            'View Department Budget': 'View department budget',
+            'Delete Employee': 'Delete an employee',
+            'Delete Role': 'Delete a role',
+            'Delete Department': 'Delete a department'
         }
     return inserts;
 }

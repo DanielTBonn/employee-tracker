@@ -19,15 +19,21 @@ async function init() {
     if (inserts[answers.menu]) {
         if (answers.menu === 'Add Employee') {
             await addEmployee(answers.employeeFirst, answers.employeeLast, answers.employeeRole, answers.employeeManager);
-        } else if (answers.menu === 'Update Employee Role') {
-            await updateEmployeeRole(answers.employeeNames, answers.roleName);
+        } else if (answers.menu === 'Delete Employee') {
+            await deleteEmployee(answers.employeeNames);
+        }  else if (answers.menu === 'Update Employee Role') {
+            await updateEmployeeRole(answers.employeeNames, answers.employeeRole);
         } else if (answers.menu === 'Update Employee Manager') {
             await updateEmployeeManager(answers.employeeNames, answers.employeeManager);
         } else if (answers.menu === 'Add Role') { 
             await addRole(answers.newRoleName, answers.roleSalary, answers.roleDepartment);
+        } else if (answers.menu === 'Delete Role') { 
+            await deleteRole(answers.employeeRole);
         } else if (answers.menu === 'Add Department') { 
             await addDepartment(answers.departmentName);
-        } else if (answers.menu === 'View Employees By Manager') {
+        } else if (answers.menu === 'Delete Department') { 
+            await deleteDepartment(answers.departmentSearch);
+        }else if (answers.menu === 'View Employees By Manager') {
             const newTable = await viewEmployeesByManager(answers.managerNames)
             if (newTable.length > 1) {
                 toTable(newTable)
