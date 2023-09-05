@@ -2,6 +2,7 @@
 const { Console } = require('console');
 const { Transform } = require('stream');
 
+// Creates a table using queried data
 function table(input) {
   // @see https://stackoverflow.com/a/67859384
   const ts = new Transform({ transform(chunk, enc, cb) { cb(null, chunk) } })
