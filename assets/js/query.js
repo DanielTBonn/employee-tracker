@@ -78,6 +78,24 @@ const viewEmployeesByDepartment = async (department) => {
 
 }
 
+const viewDepartmentBudget = async (department) => {
+    const idQuery = `SELECT id FROM department WHERE name=?;`;
+    let departmentId = null;
+    if (department) {
+        const departmentQuery = await db.query(idQuery, [department]);
+        departmentId = departmentQuery[0][0].id
+    }
+
+    const budgetQuery = `SELECT SUM(salary) AS budget 
+    FROM employee
+    LEFT JOIN employee AS manager ON manager.id=employee.manager_id 
+    LEFT JOIN role ON role.id=employee.role_id 
+    LEFT JOIN department ON department_id=department.id 
+    WHERE department.id=?;`;
+    const budget = await db.query(budgetQuery, [departmentId])
+    return budget[0]
+}
+
 // Returns all department names
 const departmentChoices = async () => {
     const departmentQuery = `SELECT name FROM department`;
@@ -183,4 +201,4 @@ const addDepartment = async (name) => {
 
 }
 
-module.exports = { viewAllEmployees, viewEmployeesByManager, viewEmployeesByDepartment, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment }
+module.exports = { viewAllEmployees, viewEmployeesByManager, viewEmployeesByDepartment, viewDepartmentBudget, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment }
