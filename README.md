@@ -19,7 +19,7 @@ At the command line, clone this repository into your directory of choice and ins
   
 At the command line, run node index.js and use the arrow keys to choose between options. Input information when called for or select options you would like to view, update, or delete.
 
-[!employee-tracker-image]('./assets/images/employee-tracker-pic.png')
+![employee-tracker-image](./assets/images/employee-tracker-pic.png)
 
 ## Contribute
   
