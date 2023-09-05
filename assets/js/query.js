@@ -10,8 +10,8 @@ const db = mysql.createConnection({
 
 // Queries all employees and returns information about them
 const viewAllEmployees = async () => {
-    const employeesQuery = `SELECT employee.id, employee.first_name, employee.last_name, title, salary, 
-    name AS department, CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
+    const employeesQuery = `SELECT employee.id, employee.first_name, employee.last_name, title, 
+    name AS department, salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
     FROM employee 
     LEFT JOIN employee AS manager ON manager.id=employee.manager_id 
     LEFT JOIN role ON role.id=employee.role_id 
@@ -46,8 +46,8 @@ const viewEmployeesByManager = async (manager) => {
         managerId = managerQuery[0][0].id
     }
 
-    const employeesQuery = `SELECT employee.id, employee.first_name, employee.last_name, title, salary, 
-    name AS department, CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
+    const employeesQuery = `SELECT employee.id, employee.first_name, employee.last_name, title,
+    name AS department, salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
     FROM employee 
     LEFT JOIN employee AS manager ON manager.id=employee.manager_id 
     LEFT JOIN role ON role.id=employee.role_id 
@@ -67,8 +67,8 @@ const viewEmployeesByDepartment = async (department) => {
         departmentId = departmentQuery[0][0].id
     }
 
-    const employeesQuery = `SELECT employee.id, employee.first_name, employee.last_name, title, salary, 
-    name AS department, CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
+    const employeesQuery = `SELECT employee.id, employee.first_name, employee.last_name, title, 
+    name AS department, salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager 
     FROM employee 
     LEFT JOIN employee AS manager ON manager.id=employee.manager_id 
     LEFT JOIN role ON role.id=employee.role_id 
