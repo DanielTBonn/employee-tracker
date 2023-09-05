@@ -1,7 +1,7 @@
 // Dependicies and functions we will use to execute inquirer
 const inquirer = require('inquirer');
 const toTable = require('./assets/js/table.js');
-const { viewEmployeesByManager, viewEmployeesByDepartment, viewDepartmentBudget, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment } = require('./assets/js/query.js');
+const { viewEmployeesByManager, viewEmployeesByDepartment, viewDepartmentBudget, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment, deleteEmployee, deleteRole, deleteDepartment } = require('./assets/js/query.js');
 const{ questionPrompt, tableFuncs, insertFuncs } = require('./assets/js/questions.js')
 
 // Async function because we wait on our queries in the form of promises
@@ -72,7 +72,7 @@ async function init() {
 const asyncCall = async() => {
     // const info = await updateEmployee('Gary Ciello', 'Account Manager');
     // const info = await addEmployee('Drake', 'Friday', 'Junior Software Developer', 'Daniel Bonn');
-    const info = await viewDepartmentBudget('Engineering');
+    const info = await deleteDepartment('New Dept');
     // const obj = []
     // const info = await viewAllEmployees();
     console.log(toTable(info))

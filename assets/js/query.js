@@ -96,6 +96,7 @@ const viewDepartmentBudget = async (department) => {
     return budget[0]
 }
 
+
 // Returns all department names
 const departmentChoices = async () => {
     const departmentQuery = `SELECT name FROM department`;
@@ -201,4 +202,19 @@ const addDepartment = async (name) => {
 
 }
 
-module.exports = { viewAllEmployees, viewEmployeesByManager, viewEmployeesByDepartment, viewDepartmentBudget, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment }
+const deleteEmployee = async(name) => {
+    const deleteQuery = `DELETE FROM employee WHERE CONCAT(first_name, ' ', last_name)=?`;
+    await db.query(deleteQuery, name);
+}
+
+const deleteRole = async(name) => {
+    const deleteQuery = `DELETE FROM role WHERE title=?`;
+    await db.query(deleteQuery, name);
+}
+
+const deleteDepartment = async(name) => {
+    const deleteQuery = `DELETE FROM department WHERE name=?`;
+    await db.query(deleteQuery, name);
+}
+
+module.exports = { viewAllEmployees, viewEmployeesByManager, viewEmployeesByDepartment, viewDepartmentBudget, viewRoles, viewDepartments, departmentChoices, roleChoices, employeeChoices, managerChoices, addEmployee, updateEmployeeRole, updateEmployeeManager, addRole, addDepartment, deleteEmployee, deleteRole, deleteDepartment }
