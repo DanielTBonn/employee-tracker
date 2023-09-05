@@ -13,8 +13,6 @@ async function init() {
     const inserts = await insertFuncs();
     const tables = await tableFuncs();
 
-    console.log(answers)
-    
     // If a answer from the menu is in the inserts object, then we perform an update to our database
     if (inserts[answers.menu]) {
         if (answers.menu === 'Add Employee') {
@@ -63,7 +61,6 @@ async function init() {
     }
 
     // Choice of continuing our script or exiting.
-    console.log("Hello inserts", inserts[answers.menu] )
     if (answers.menu !== 'Quit') {
         init();
     } else {
@@ -72,17 +69,4 @@ async function init() {
 
 }
 
-
-// init();
-
-const asyncCall = async() => {
-    // const info = await updateEmployee('Gary Ciello', 'Account Manager');
-    // const info = await addEmployee('Drake', 'Friday', 'Junior Software Developer', 'Daniel Bonn');
-    const info = await deleteDepartment('New Dept');
-    // const obj = []
-    // const info = await viewAllEmployees();
-    console.log(toTable(info))
-    // console.log(info)
-}
-// asyncCall();
 init();
