@@ -37,6 +37,7 @@ const viewDepartments = async () => {
     return departments[0];
 }
 
+// Returns employees by manager 
 const viewEmployeesByManager = async (manager) => {
     const idQuery = `SELECT id FROM employee WHERE CONCAT(first_name, ' ', last_name)=?;`;
     let managerId = null;
@@ -57,6 +58,7 @@ const viewEmployeesByManager = async (manager) => {
     return managedEmployees[0];
 }
 
+// Returns employees by department
 const viewEmployeesByDepartment = async (department) => {
     const idQuery = `SELECT id FROM department WHERE name=?;`;
     let departmentId = null;
@@ -78,6 +80,7 @@ const viewEmployeesByDepartment = async (department) => {
 
 }
 
+// Returns the departments budget
 const viewDepartmentBudget = async (department) => {
     const idQuery = `SELECT id FROM department WHERE name=?;`;
     let departmentId = null;
@@ -202,16 +205,19 @@ const addDepartment = async (name) => {
 
 }
 
+// Deletes an employee from the sql database
 const deleteEmployee = async(name) => {
     const deleteQuery = `DELETE FROM employee WHERE CONCAT(first_name, ' ', last_name)=?`;
     await db.query(deleteQuery, name);
 }
 
+// Deletes a role from the sql database
 const deleteRole = async(name) => {
     const deleteQuery = `DELETE FROM role WHERE title=?`;
     await db.query(deleteQuery, name);
 }
 
+// Deletes a department from the sql database
 const deleteDepartment = async(name) => {
     const deleteQuery = `DELETE FROM department WHERE name=?`;
     await db.query(deleteQuery, name);
