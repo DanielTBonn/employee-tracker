@@ -162,9 +162,6 @@ const updateEmployeeRole = async (name, role) => {
     const updateQuery = `UPDATE employee SET role_id=? WHERE id=?;`
     
     await db.query(updateQuery, [roleId[0][0].id, employeeId[0][0].id])
-
-    return [employeeId[0][0].id, roleId[0][0].id];
-
 }
 
 const updateEmployeeManager = async (name, manager) => {

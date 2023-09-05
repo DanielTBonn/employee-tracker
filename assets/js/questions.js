@@ -8,7 +8,7 @@ const questionPrompt = async() => {
         type: 'list',
         name: 'menu',
         message: 'What would you like to do?',
-        choices: ['View All Employees', 'View Employees By Manager', 'View Employees By Department', 'View Department Budget', 'Add Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Delete Employee', 'Delete Role', 'Delete Department', 'Quit']
+        choices: ['View All Employees', 'View Employees By Manager', 'View Employees By Department', 'View Department Budget', 'View All Roles', 'View All Departments', 'Add Employee', 'Add Role', 'Add Department', 'Update Employee Role', 'Update Employee Manager',  'Delete Employee', 'Delete Role', 'Delete Department', 'Quit']
     },
     {
         type: 'input',
@@ -28,20 +28,20 @@ const questionPrompt = async() => {
     },
     {
         type: 'list',
-        name: 'employeeRole',
-        message: "What role is it?",
-        choices: await roleChoices(),
-        when: function(answers) {
-            return answers.menu === 'Add Employee' || answers.menu === 'Delete Role';
-        }
-    }, 
-    {
-        type: 'list',
         name: 'employeeNames',
         message: "What is the employee's name?",
         choices: await employeeChoices(),
         when: function(answers) {
             return answers.menu === 'Update Employee Role' || answers.menu === 'Update Employee Manager' || answers.menu === 'Delete Employee';
+        }
+    }, 
+    {
+        type: 'list',
+        name: 'employeeRole',
+        message: "What role is it?",
+        choices: await roleChoices(),
+        when: function(answers) {
+            return answers.menu === 'Add Employee' || answers.menu === 'Delete Role' || answers.menu === 'Update Employee Role';
         }
     }, 
     {
@@ -60,15 +60,15 @@ const questionPrompt = async() => {
             return answers.menu === 'Add Employee' || answers.menu === 'Update Employee Manager';
         },
     },
-    {
-        type: 'list',
-        name: 'roleName',
-        message: "What role is it?",
-        choices: await roleChoices(),
-        when: function(answers) {
-            return answers.menu === 'Update Employee Role';
-        }
-    },
+    // {
+    //     type: 'list',
+    //     name: 'roleName',
+    //     message: "What role is it?",
+    //     choices: await roleChoices(),
+    //     when: function(answers) {
+    //         return answers.menu === 'Update Employee Role';
+    //     }
+    // },
     {
         type: 'input',
         name: 'newRoleName',

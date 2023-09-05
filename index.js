@@ -33,7 +33,7 @@ async function init() {
             await deleteDepartment(answers.departmentSearch);
         }else if (answers.menu === 'View Employees By Manager') {
             const newTable = await viewEmployeesByManager(answers.managerNames)
-            if (newTable.length > 1) {
+            if (newTable.length > 0) {
                 toTable(newTable)
             } else {
                 console.log("No employees under their management")
@@ -41,7 +41,7 @@ async function init() {
 
         } else if (answers.menu === 'View Employees By Department') {
             const newTable = await viewEmployeesByDepartment(answers.departmentSearch)
-            if (newTable.length > 1) {
+            if (newTable.length > 0) {
                 toTable(newTable)
             } else {
                 console.log("No employees in this department")
