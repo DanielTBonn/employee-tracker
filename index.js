@@ -66,7 +66,6 @@ async function init() {
     } else {
         process.exit();
     }
-
 }
 
 init();

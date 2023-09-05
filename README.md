@@ -8,6 +8,7 @@ To keep track of a large company with many different employees, roles, and depar
 - [Usage](#usage)
 - [Contribute](#contribute)
 - [Tests](#tests)
+- [Link](#link)
 - [Questions](#questions)
 
 ## Installation
@@ -18,6 +19,8 @@ At the command line, clone this repository into your directory of choice and ins
   
 At the command line, run node index.js and use the arrow keys to choose between options. Input information when called for or select options you would like to view, update, or delete.
 
+[!employee-tracker-image]('./assets/images/employee-tracker-pic.png')
+
 ## Contribute
   
 No contributions necessary, but tips on improving my code are welcome.
@@ -25,6 +28,10 @@ No contributions necessary, but tips on improving my code are welcome.
 ## Tests
   
 No tests have been written for this project yet.
+
+## Link
+
+N/A
 
 ## Questions
 
